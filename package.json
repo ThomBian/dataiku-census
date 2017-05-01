@@ -1,0 +1,23 @@
+{
+  "name": "dataiku-census",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomBian/dataiku-census.git"
+  },
+  "author": "Thomas Bianchini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomBian/dataiku-census/issues"
+  },
+  "homepage": "https://github.com/ThomBian/dataiku-census#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "sqlite3": "^3.1.8"
+  }
+}
