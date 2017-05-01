@@ -7,8 +7,13 @@ var app = express();
 app.set('port', 5000);
 
 app.get('/', function(req, res){
-  DAO.getAllColumnsName().then(data => {
-    console.log(data);
+  DAO.getAllColumnsName()
+  .then(data => {
+    var dataArr = JSON.parse(data);
+    DAO.getColumnInfos(dataArr[1])
+    .then(data => {
+      console.log(data);
+    }).catch(err => console.error(err));
   }).catch(err => {
     console.error(err);
   });

@@ -7,8 +7,8 @@ var DBObject = null;
 
 /*QUERIES*/
 var allColumnsName = "PRAGMA table_info(census_learn_sql)";
-
-
+var ageAlias = "age";
+var countAlias = "count";
 /*
 * function that load a sqlite3 file
 * @param fileNamePath : has to the path to the file,
@@ -32,7 +32,7 @@ daoModule.loadDB = function(fileNamePath){
 daoModule.getAllColumnsName = function() {
   return new Promise((resolve, reject) => {
     if (DBObject == null){
-      reject("No Databse found, make sure to call load before...");
+      reject("No Database found, make sure to call load before...");
     } else {
       DBObject.all(allColumnsName, function(err, rows){
         if (err){
@@ -51,6 +51,29 @@ daoModule.getAllColumnsName = function() {
 }
 
 //get value for a dedicated field
+daoModule.getColumnInfos = function(columnName){
+  return new Promise((resolve, reject) => {
+    if (DBObject == null) {
+      reject("No Database found, make sure to call load before...");
+    } else {
+      var query = "SELECT \"" + columnName + "\", COUNT(*) as "+ countAlias +
+      ", AVG(age) as " + ageAlias +
+      " FROM census_learn_sql GROUP BY \"" + columnName +"\""+
+      " ORDER BY COUNT(*) DESC";
+      DBObject.all(query, function(err, rows){
+        if (err){
+          reject(err);
+        } else {
+          var rowsJSON = [];
+          rows.forEach(row => {
+            rowsJSON.push(row);
+          });
+          resolve(JSON.stringify(rowsJSON));
+        }
+      });
+    }
+  });
+}
 
 //close database
 function closeDB () {
