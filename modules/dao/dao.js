@@ -66,7 +66,14 @@ daoModule.getColumnInfos = function(columnName){
         } else {
           var rowsJSON = [];
           rows.forEach(row => {
-            rowsJSON.push(row);
+            if (row[columnName]){
+              var rowObj = {
+                columnValue: row[columnName],
+                age: parseFloat(row["age"]).toFixed(2),
+                count: row["count"]
+              }
+              rowsJSON.push(rowObj);
+            }
           });
           resolve(JSON.stringify(rowsJSON));
         }

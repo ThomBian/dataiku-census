@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label for="Columns">Select list:</label>
+  <select class="form-control" ng-model="$ctrl.columnsSelect" ng-change="$ctrl.getValues()">
+    <option value="{{column}}" ng-repeat="column in $ctrl.columns">{{column}}</option>
+  </select>
+</div>

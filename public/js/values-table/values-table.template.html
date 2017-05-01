@@ -1,0 +1,17 @@
+<column-list on-change="$ctrl.change(values, column)"></column-list>
+<table>
+  <thead>
+    <tr>
+      <td>Value</td>
+      <td>Count</td>
+      <td>Average Age</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="value in $ctrl.values">
+      <td>{{value.columnValue}}</td>
+      <td>{{value.count}}</td>
+      <td>{{value.age}}</td>
+    </tr>
+  </tbody>
+</table>

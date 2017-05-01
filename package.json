@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/ThomBian/dataiku-census#readme",
   "dependencies": {
+    "angular": "^1.6.4",
+    "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "express": "^4.15.2",
