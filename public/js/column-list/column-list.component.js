@@ -8,11 +8,14 @@ function ColumnListController($http){
 
   self.getValues = function() {
     var columnChosen = self.columnsSelect;
-    $("#loader").removeClass("hidden");
-    $("#values").addClass("hidden");
-    $("#outsInformations").addClass("hidden");
+    self.onSelectRequest();
     $http.get('http://localhost:5000/api/column/'+columnChosen).then(function(response){
-      self.onChange({values : response.data.data, outs: response.data.outs});
+      console.log(response.data.data);
+      self.onChange({
+        values : response.data.data,
+        valuesOut: response.data.valuesOut,
+        rowsOut: response.data.rowsOut
+      });
     });
   }
 }
@@ -22,6 +25,7 @@ angular.module('columnList')
   templateUrl: "../js/column-list/column-list.template.html",
   controller: ColumnListController,
   bindings: {
-    onChange: '&'
+    onChange: '&',
+    onSelectRequest: '&'
   }
 });

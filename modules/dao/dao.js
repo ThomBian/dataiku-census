@@ -3,17 +3,24 @@ var sqlite3 = require('sqlite3').verbose();
 
 var daoModule = module.exports;
 
+//database object
 var DBObject = null;
 
 /*QUERIES*/
 var allColumnsName = "PRAGMA table_info(census_learn_sql)";
+
+/* constants */
 var ageAlias = "age";
 var countAlias = "count";
 var maxValuesDisplayed = 100;
+
+
 /*
-* function that load a sqlite3 file
-* @param fileNamePath : has to the path to the file,
-* if the file path
+* promise to load a sqlite3 file
+* @param fileNamePath : the file path,
+* reject on : file does not exists, SQLite error
+* resolve : the DBObject
+* return type : DBObject (resolve), error (reject)
 */
 daoModule.loadDB = function(fileNamePath){
   return new Promise((resolve, reject) => {
@@ -29,7 +36,12 @@ daoModule.loadDB = function(fileNamePath){
   });
 }
 
-//get all column's names
+/*
+* Promise to get all column's names
+* reject on : no databse, SQLite error
+* resolve : array of string containing all columns names
+* return type : JSON (resolve), string (reject)
+*/
 daoModule.getAllColumnsName = function() {
   return new Promise((resolve, reject) => {
     if (DBObject == null){
@@ -37,7 +49,7 @@ daoModule.getAllColumnsName = function() {
     } else {
       DBObject.all(allColumnsName, function(err, rows){
         if (err){
-          reject(err);
+          reject(err.toString());
         } else {
           var names = [];
           rows.forEach(row => {
@@ -51,7 +63,13 @@ daoModule.getAllColumnsName = function() {
   });
 }
 
-//get value for a dedicated field
+/*
+* Promise that get values for a dedicated column
+* @param columnName: the columnName
+* reject on : No Database found, SQLite err
+* resolve : array of object {data : [formated rows], valuesOut : numberOfValuesClippedOut, rowsOut : numberOfRowsOut}
+* return type : JSON (resolve), string (reject)
+*/
 daoModule.getColumnInfos = function(columnName){
   return new Promise((resolve, reject) => {
     if (DBObject == null) {
@@ -63,14 +81,16 @@ daoModule.getColumnInfos = function(columnName){
       " ORDER BY COUNT(*) DESC";
       DBObject.all(query, function(err, rows){
         if (err){
-          reject(err);
+          reject(err.toString());
         } else {
           var counter = rows.length <= maxValuesDisplayed ? rows.length : maxValuesDisplayed;
-          var clippedOutRowsNumber = counter == maxValuesDisplayed ? rows.length - maxValuesDisplayed : 0;
           var rowsJSON = getValues(rows, counter, columnName);
+          var nbValuesClippedOut = counter == maxValuesDisplayed ? rows.length - maxValuesDisplayed : 0;
+          var nbRowsClippedOut = daoModule.getNbRowsOut(rows, counter);
           var returnObject = {
             data: rowsJSON,
-            outs: clippedOutRowsNumber
+            valuesOut: nbValuesClippedOut,
+            rowsOut: nbRowsClippedOut
           }
           resolve(JSON.stringify(returnObject));
         }
@@ -79,6 +99,24 @@ daoModule.getColumnInfos = function(columnName){
   });
 }
 
+daoModule.getNbRowsOut = function(rows, counter){
+  if (counter == rows.length){
+    return 0;
+  } else {
+    return rows.splice(counter, rows.length).reduce(function(all, value){
+      var nbRows = value["count"];
+      return all + nbRows;
+    }, 0);
+  }
+}
+
+/*
+* function get rows
+* @param rows : raw rows from DB
+* @param counter : number of rows to retrieve
+* @param columnName : the columnName
+* return array of {columnName : value, age : average, count : nbOfRows}
+*/
 function getValues(rows, counter, columnName){
   var rowsJSON = [];
   var i = 0;
@@ -99,7 +137,9 @@ function getValues(rows, counter, columnName){
   return rowsJSON;
 }
 
-//close database
+/*
+* close a the current database
+*/
 function closeDB () {
   if (DBObject != null){
     DBObject.close();

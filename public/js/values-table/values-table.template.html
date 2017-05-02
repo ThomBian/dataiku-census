@@ -1,4 +1,4 @@
-<column-list on-change="$ctrl.change(values, outs)"></column-list>
+<column-list on-change="$ctrl.change(values, valuesOut, rowsOut)" on-select-request="$ctrl.hideInfos()"></column-list>
 <div id="outsInformations" class="hidden content" role="alert">
 </div>
 <img id="loader" src="/img/loading.gif" class="hidden img-responsive center-block" alt="" height="50px" width="50px">
