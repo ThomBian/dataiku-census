@@ -8,8 +8,11 @@ function ColumnListController($http){
 
   self.getValues = function() {
     var columnChosen = self.columnsSelect;
+    $("#loader").removeClass("hidden");
+    $("#values").addClass("hidden");
+    $("#outsInformations").addClass("hidden");
     $http.get('http://localhost:5000/api/column/'+columnChosen).then(function(response){
-      self.onChange({values : response.data, column: columnChosen});
+      self.onChange({values : response.data.data, outs: response.data.outs});
     });
   }
 }

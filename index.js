@@ -9,7 +9,7 @@ app.use('/js', express.static(path.join(__dirname, './node_modules/jquery/dist')
 app.use('/js', express.static(path.join(__dirname, './node_modules/angular')));
 app.use('/css', express.static(path.join(__dirname, './public/css')));
 app.use('/css', express.static(path.join(__dirname, './node_modules/bootstrap/dist/css')));
-
+app.use('/img', express.static(path.join(__dirname, './public/img/')));
 app.set('port', 5000);
 
 app.get('/', function(req, res){

@@ -9,6 +9,7 @@ var DBObject = null;
 var allColumnsName = "PRAGMA table_info(census_learn_sql)";
 var ageAlias = "age";
 var countAlias = "count";
+var maxValuesDisplayed = 100;
 /*
 * function that load a sqlite3 file
 * @param fileNamePath : has to the path to the file,
@@ -64,22 +65,38 @@ daoModule.getColumnInfos = function(columnName){
         if (err){
           reject(err);
         } else {
-          var rowsJSON = [];
-          rows.forEach(row => {
-            if (row[columnName]){
-              var rowObj = {
-                columnValue: row[columnName],
-                age: parseFloat(row["age"]).toFixed(2),
-                count: row["count"]
-              }
-              rowsJSON.push(rowObj);
-            }
-          });
-          resolve(JSON.stringify(rowsJSON));
+          var counter = rows.length <= maxValuesDisplayed ? rows.length : maxValuesDisplayed;
+          var clippedOutRowsNumber = counter == maxValuesDisplayed ? rows.length - maxValuesDisplayed : 0;
+          var rowsJSON = getValues(rows, counter, columnName);
+          var returnObject = {
+            data: rowsJSON,
+            outs: clippedOutRowsNumber
+          }
+          resolve(JSON.stringify(returnObject));
         }
       });
     }
   });
+}
+
+function getValues(rows, counter, columnName){
+  var rowsJSON = [];
+  var i = 0;
+  var added = 0;
+  while (i < rows.length && added < counter){
+    var row = rows[i];
+    if (row[columnName]){
+      var rowObj = {
+        columnValue: row[columnName],
+        age: parseFloat(row["age"]).toFixed(2),
+        count: row["count"]
+      }
+      rowsJSON.push(rowObj);
+      added++;
+    }
+    i++;
+  }
+  return rowsJSON;
 }
 
 //close database

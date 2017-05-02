@@ -1,7 +1,11 @@
-<column-list on-change="$ctrl.change(values, column)"></column-list>
-<table>
+<column-list on-change="$ctrl.change(values, outs)"></column-list>
+<div id="outsInformations" class="hidden content" role="alert">
+</div>
+<img id="loader" src="/img/loading.gif" class="hidden img-responsive center-block" alt="" height="50px" width="50px">
+<table id="values" class="table table-hover hidden content">
   <thead>
     <tr>
+      <td>Row</td>
       <td>Value</td>
       <td>Count</td>
       <td>Average Age</td>
@@ -9,6 +13,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="value in $ctrl.values">
+      <td>{{$index}}</td>
       <td>{{value.columnValue}}</td>
       <td>{{value.count}}</td>
       <td>{{value.age}}</td>
