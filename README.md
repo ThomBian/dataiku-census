@@ -23,6 +23,7 @@ This exercice is described [here](http://dev.dataiku.com/~cstenac/dev-recruiting
 - After loading it displays the values and some extra informations if applicable.
 
 ## Server tests :
+- make sure to add us-census.db in the dbs directory. Tests need this database file to run.
 - some server tests have been written under the /test/test-server.js
 - At the root of the project, type "npm test" to launch them.
 
