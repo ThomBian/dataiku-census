@@ -12,12 +12,12 @@ var fileUtilsModule = require('../modules/utils/fileUtils.js');
 describe('File Utils Tests', function() {
 
   it('promise should resolve because dbs/us-census.db exists', function(){
-    var filePath = "dbs/us-census.db";
+    var filePath = "test/test-server.js";
     return fileUtilsModule.isFileExist(filePath).should.be.fulfilled;
   });
 
   it('promise should reject because dbs/fr-census.db does not exists', function(){
-    var filePath = "dbs/en-census.db";
+    var filePath = "test/no-file.js";
     return fileUtilsModule.isFileExist(filePath).should.be.rejected;
   });
 
