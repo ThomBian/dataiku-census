@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label for="databases">Select database :</label>
+  <select class="form-control" ng-model="$ctrl.selectedDB" ng-change="$ctrl.setDatabase()">
+    <option value="{{database}}" ng-repeat="database in $ctrl.databases">{{database}}</option>
+  </select>
+</div>

@@ -17,8 +17,18 @@ describe('File Utils Tests', function() {
   });
 
   it('promise should reject because dbs/fr-census.db does not exists', function(){
-    var filePath = "dbs/fr-census.db";
+    var filePath = "dbs/en-census.db";
     return fileUtilsModule.isFileExist(filePath).should.be.rejected;
+  });
+
+  it('should return one file and the file name is test-server.js', function(done){
+    var folderPath = "test";
+    fileUtilsModule.getVisiblesFilesInFolder(folderPath).then(files => {
+      expect(files).to.not.be.empty;
+      expect(files.length).to.be.equal(1);
+      expect(files[0]).to.be.equal("test-server.js");
+    });
+    done();
   });
 });
 /* END OF FILE UTILS TESTS */

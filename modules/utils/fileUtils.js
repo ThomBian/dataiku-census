@@ -18,3 +18,21 @@ fileUtilsModule.isFileExist = function (filePath) {
     });
   });
 }
+
+fileUtilsModule.getVisiblesFilesInFolder = function (folderPath) {
+  return new Promise ((resolve, reject) => {
+    fs.readdir(folderPath, (err, files) => {
+      if (err){
+        reject(err);
+      } else {
+        var filesVisibles = [];
+        files.forEach(file => {
+          if (file[0] != '.'){
+            filesVisibles.push(file);
+          }
+        })
+        resolve(filesVisibles);
+      }
+    });
+  });
+}

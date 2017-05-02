@@ -1,9 +1,10 @@
-function ValuesTableController(){
+function ValuesTableController($scope){
   var self = this;
   self.values = [];
   self.divOuts = $("#outsInformations")[0];
 
   self.change = function(values, valuesOut, rowsOut) {
+    $("#loader").addClass("hidden");
     self.displayInfos();
     self.setOutsInformation(valuesOut, rowsOut);
     self.values = values;
@@ -26,15 +27,25 @@ function ValuesTableController(){
   }
 
   self.displayInfos = function() {
-    $("#loader").addClass("hidden");
     $("#values").removeClass("hidden");
     $("#outsInformations").removeClass("hidden");
   }
 
   self.hideInfos = function() {
-    $("#loader").removeClass("hidden");
     $("#values").addClass("hidden");
     $("#outsInformations").addClass("hidden");
+  }
+
+  self.display = function(dbName) {
+    self.dbName = dbName;
+    $scope.$broadcast("dbChange");
+    $("#valuesContainer").removeClass();
+  }
+
+  self.hide = function () {
+    self.values = [];
+    self.hideInfos();
+    $("#valuesContainer").addClass("hidden");
   }
 }
 
