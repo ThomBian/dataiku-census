@@ -1,9 +1,9 @@
-<database-list on-loaded="$ctrl.display(dbName)" on-selected="$ctrl.hide()"></database-list>
+<database-list on-error="$ctrl.displayErr(error)" on-loaded="$ctrl.display(dbName)" on-selected="$ctrl.hide()"></database-list>
+<div id="outsInformations" class="hidden content" role="alert">
+</div>
 <div id="valuesContainer" class="hidden">
   <h3>{{$ctrl.dbName}}</h3>
-  <column-list on-change="$ctrl.change(values, valuesOut, rowsOut)" on-select-request="$ctrl.hideInfos()"></column-list>
-  <div id="outsInformations" class="hidden content" role="alert">
-  </div>
+  <column-list on-error="$ctrl.displayErr(error)" on-change="$ctrl.change(values, valuesOut, rowsOut)" on-select-request="$ctrl.hideInfos()"></column-list>
   <img id="loader" src="/img/loading.gif" class="hidden img-responsive center-block" alt="" height="50px" width="50px">
   <table id="values" class="table table-hover hidden content">
     <thead>

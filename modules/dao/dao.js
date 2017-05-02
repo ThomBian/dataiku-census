@@ -31,7 +31,8 @@ daoModule.loadDB = function(fileNamePath){
       DBObject = new sqlite3.Database(fileNamePath);
       resolve(DBObject);
     }).catch(err => {
-      reject(err);
+      console.error(err);
+      reject("Error while trying to load database " + fileNamePath);
     });
   });
 }
@@ -45,7 +46,7 @@ daoModule.loadDB = function(fileNamePath){
 daoModule.getAllColumnsName = function() {
   return new Promise((resolve, reject) => {
     if (DBObject == null){
-      reject("No Database found, make sure to call load before...");
+      reject("No Database found on the server...");
     } else {
       DBObject.all(allColumnsName, function(err, rows){
         if (err){
@@ -73,7 +74,7 @@ daoModule.getAllColumnsName = function() {
 daoModule.getColumnInfos = function(columnName){
   return new Promise((resolve, reject) => {
     if (DBObject == null) {
-      reject("No Database found, make sure to call load before...");
+      reject("No Database found on the server...");
     } else {
       var query = "SELECT \"" + columnName + "\", COUNT(*) as "+ countAlias +
       ", AVG(age) as " + ageAlias +
@@ -145,6 +146,6 @@ function closeDB () {
     DBObject.close();
     DBObject = null;
   } else {
-    console.error("Operation not permitted, trying to close a null database object");
+    console.error("Operation not allowed, trying to close a null database object");
   }
 }
