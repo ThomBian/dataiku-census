@@ -14,12 +14,11 @@ This exercice is described [here](http://dev.dataiku.com/~cstenac/dev-recruiting
 - Download and install NodeJS, it includes npm [dowload page](https://nodejs.org/en/).
 - Clone the repository
 - When downloaded, cd "theClonedRepository" in your shell
-- You should add the SQLite database files you want to test in the folder dbs
+- Type in "mkdir dbs", you should add the SQLite database files you want to test in the folder "dbs"
 - Type "npm install" and wait for the end of the process
 - Type "node index.js", it should write the connection port for the server
 - [Link to the website](http://localhost:5000)
-- If everything have worked so far and you do have some databases files in the "dbs" folder,
-you should see the database files name in the selected list. Choose one.
+- If everything have worked so far and you do have some databases files in the "dbs" folder, you should see the database files name in the selected list. Choose one.
 - It should display another select list with all the columns of the table. Choose one.
 - After loading it displays the values and some extra informations if applicable.
 
